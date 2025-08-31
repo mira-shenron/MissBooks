@@ -70,7 +70,6 @@ export function BookDetails() {
                     <section className='adittional-details'> 
                         <span className='tag is-vintage'>{isVintage ? 'Vintage' : 'New'}</span>
                         {readingLength && <span className="tag reading-length">{readingLength}</span>}
-                        {book.listPrice.isOnSale && <span className="tag on-sale">On Sale!</span>}
                     </section>
 
                     <section className="description-section">
@@ -78,7 +77,10 @@ export function BookDetails() {
                         <LongTxt txt={book.description} length={50}></LongTxt>
                     </section>
                 </section>
-                <img src={book.thumbnail} alt="book-image" />
+                <section className="book-img">
+                    <img src={book.thumbnail} alt="book-image" />
+                    {book.listPrice.isOnSale && <span className="tag on-sale">On Sale!</span>}
+                </section>
             </div>
             
             <section className="navigations-arrows-container"> 

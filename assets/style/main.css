@@ -354,10 +354,20 @@ a.active {
 	margin-top: 20px;
 }
 
+.book-img {
+	position: relative;
+}
+
 .on-sale {
-	background-color: var(--clr2bg);
-	color: var(--clr1);
+	background-color: rgb(241, 10, 40);
+	color: white;
 	font-weight: bold;
+	font-size: large;
+	position: absolute;
+	top: 0;
+	right: 20%;
+	padding: 20px;
+	border-radius: 0 0 0 30px;
 }
 
 .description-section {
