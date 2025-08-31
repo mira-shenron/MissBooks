@@ -12,8 +12,8 @@ export function query(filterBy = {}) {
                 const regExp = new RegExp(filterBy.title, 'i')
                 books = books.filter(book => regExp.test(book.title)) 
             }
-            if (filterBy.minPrice) {
-                books = books.filter(book => book.listPrice.amount >= filterBy.minPrice)
+            if (filterBy.maxPrice) {
+                books = books.filter(book => book.listPrice.amount <= filterBy.maxPrice)
             }
             return books;
         })
@@ -38,7 +38,7 @@ export function save(book) {
 }
 
 export function getDefaultFilter() {
-    return { title: '', minPrice: '' }
+    return { title: '', maxPrice: '' }
 }
 
 function _setNextPrevBookId(book) {

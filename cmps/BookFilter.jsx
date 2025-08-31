@@ -31,7 +31,7 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
     onSetFilterBy(filterByToEdit);
   }
 
-  const { title, minPrice } = filterByToEdit;
+  const { title, maxPrice } = filterByToEdit;
   return (
     <section className="book-filter">
       <h2>Filter Books</h2>
@@ -48,13 +48,13 @@ export function BookFilter({ filterBy, onSetFilterBy }) {
         </section>
 
         <section>
-          <label htmlFor="minPrice">Min Price </label>
+          <label htmlFor="maxPrice">Max Price </label>
           <input
             onChange={handleChange}
             type="number"
-            value={minPrice}
-            name="minPrice"
-            id="minPrice"
+            value={maxPrice}
+            name="maxPrice"
+            id="maxPrice"
           />
         </section>
 
