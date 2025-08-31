@@ -79,7 +79,7 @@ export function BookDetails() {
                 </section>
                 <section className="book-img">
                     <img src={book.thumbnail} alt="book-image" />
-                    {book.listPrice.isOnSale && <span className="tag on-sale">On Sale!</span>}
+                    {book.listPrice.isOnSale && <span className="on-sale">On Sale!</span>}
                 </section>
             </div>
             
