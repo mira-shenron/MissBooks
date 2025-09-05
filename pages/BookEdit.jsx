@@ -36,6 +36,11 @@ export function BookEdit() {
             });
     }
 
+    function onCancel(ev) {
+        //navigate back to the books list  
+        navigate('/book');
+    }
+
     function handleChange({ target }) {
         let { value, name: field } = target
         switch (target.type) {
@@ -75,6 +80,7 @@ export function BookEdit() {
                 <input onChange={handleChange} value={(bookToEdit.listPrice && bookToEdit.listPrice.amount) || ''} type="number" name="price" id="price" />
                 <section className="btns flex">
                     <button>Save</button>
+                    <button type="button" onClick={onCancel}>Cancel</button>
                 </section>
             </form>
         </section>
