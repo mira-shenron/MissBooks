@@ -1,6 +1,7 @@
 import { getDefaultFilter, query, remove } from "../services/book.service.js";
 import { BookList } from "../cmps/BookList.jsx";
 import { BookFilter } from "../cmps/BookFilter.jsx";
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 
 const { useEffect, useState } = React;
 
@@ -13,11 +14,11 @@ export function BookIndex() {
   }, [filterBy]);
 
   function loadBooks() {
-    console.log(filterBy);
     query(filterBy)
       .then(setBooks)
       .catch((err) => {
         console.log("Problems getting books:", err);
+        showErrorMsg("Problems getting books");
       });
   }
 
@@ -25,9 +26,11 @@ export function BookIndex() {
     remove(bookId)
       .then(() => {
         setBooks((books) => books.filter((book) => book.id !== bookId));
+        showSuccessMsg('Book removed successfully');
       })
       .catch((err) => {
         console.log("Problems removing book:", err);
+        showErrorMsg('Problems removing book');
       });
   }
 

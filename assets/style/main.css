@@ -2,6 +2,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Edu+VIC+WA+NT+Beginner&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
 
+@import "cmps/user-msg.css";
+
 /* Vars */
 :root {
   --clr1: rgb(96, 107, 91);
@@ -358,17 +360,6 @@ a.active {
 	position: relative;
 }
 
-.on-sale {
-	background-color: rgb(241, 10, 40);
-	color: white;
-	font-weight: bold;
-	font-size: large;
-	position: absolute;
-	top: 0;
-	right: 20%;
-	padding: 20px;
-	border-radius: 0 0 0 30px;
-}
 
 .description-section {
 	margin-top: 40px;
@@ -396,3 +387,16 @@ a.active {
 .book-filter-form section label {
 	margin-right: 3px;
 }
+
+.on-sale {
+	background-color: rgb(241, 10, 40);
+	color: white;
+	font-weight: bold;
+	font-size: large;
+	position: absolute;
+	top: 0;
+	right: 20%;
+	padding: 20px;
+	border-radius: 0 0 0 30px;
+}
+

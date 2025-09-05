@@ -4,6 +4,7 @@ import {AboutUs} from "./pages/AboutUs.jsx";
 import {BookDetails} from "./pages/BookDetails.jsx";
 import {BookIndex} from "./pages/BookIndex.jsx";
 import {NotFound} from "./cmps/NotFound.jsx";
+import {UserMsg} from "./cmps/UserMsg.jsx";
 
 
 const Router = ReactRouterDOM.HashRouter;
@@ -25,6 +26,7 @@ export function App() {
             <Route path="*" element={<NotFound />} /> 
           </Routes>
         </main>
+        <UserMsg />
       </section>
     </Router>
   );
