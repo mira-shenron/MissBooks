@@ -5,7 +5,7 @@ export function BookPreview({ book }) {
         <article className="book-preview">
             <h2>{capitalizeFirstLetter(book.title)}</h2>
             <h4>{capitalizeFirstLetter(book.subtitle)}</h4>
-            <h4>{book.listPrice.amount}$</h4>
+            <h4>{book.listPrice.amount} {book.listPrice.currencyCode}</h4>
             <img src={book.thumbnail} alt="book cover image"/>
         </article>
     )

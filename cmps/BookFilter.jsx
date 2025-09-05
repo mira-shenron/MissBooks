@@ -1,7 +1,10 @@
+import { debounce } from "../services/util.service.js";
+
 const { useState, useEffect } = React;
 
 export function BookFilter({ filterBy, onSetFilterBy }) {
   const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy });
+  //const onSetFilterDebounce = debounce(onSetFilterBy, 300);
 
   useEffect(() => {
     onSetFilterBy(filterByToEdit);

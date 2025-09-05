@@ -1,12 +1,15 @@
-import { get } from "../services/book.service.js";
+import { getBook } from "../services/book.service.js";
 import {capitalizeFirstLetter} from "../services/util.service.js";
 import {LongTxt} from "../cmps/LongTxt.jsx";
+import { ReviewList } from "../cmps/ReviewList.jsx";
 
 const { useState, useEffect } = React
 const { useParams, useNavigate, Link } = ReactRouterDOM
 
 export function BookDetails() {
     const [book, setBook] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    
     const params = useParams();
     const navigate = useNavigate();
 
@@ -15,12 +18,13 @@ export function BookDetails() {
     }, [params.bookId]);
 
     function loadBook() {
-        get(params.bookId)
+        getBook(params.bookId)
             .then(book => setBook(book))
             .catch(err => console.log('err:', err))
+            .finally(() => setIsLoading(false));
     }
 
-    if (!book) return <div>Loading...</div>
+    if (isLoading) return <div>Loading...</div>
 
     function onBack() {
         navigate('/book');
@@ -42,17 +46,20 @@ export function BookDetails() {
             readingType = 'Serious Reading';
         }else if(book.pageCount > 200){
             readingType = 'Descent Reading';
-        }else if(book.pageCount << 100){
+        }else if(book.pageCount < 100){
             readingType = 'Light Reading';
         }
         return readingType;
+    }
+
+    function onRemoveReview(){
+        console.log('onRemove');
     }
     
     
     const isVintage = getIsVintage();
     const readingLength = getReadingLength();
 
-    console.log(book.authors);
     console.log('Render')
 
     return (
@@ -65,7 +72,7 @@ export function BookDetails() {
                 <section>
                     <h2>Title: {capitalizeFirstLetter(book.title)}</h2>
                     <h4>By: {book.authors}</h4> 
-                    <h3 className="price">{book.listPrice.amount}$</h3>
+                    <h3 className="price">{book.listPrice.amount} {book.listPrice.currencyCode}</h3>
                     
                     <section className='adittional-details'> 
                         <span className='tag is-vintage'>{isVintage ? 'Vintage' : 'New'}</span>
@@ -75,6 +82,14 @@ export function BookDetails() {
                     <section className="description-section">
                         <h3>Description: </h3>
                         <LongTxt txt={book.description} length={50}></LongTxt>
+                    </section>
+
+                    <section className="review-container">
+                        <section>
+                            <h3>Reviews</h3>
+                            <button>+</button>
+                        </section>
+                        <ReviewList reviews={book.reviews} onRemoveReview={onRemoveReview} />
                     </section>
                 </section>
                 <section className="book-img">

@@ -19,7 +19,7 @@ export function query(filterBy = {}) {
         })
 }
 
-export function get(bookId) {
+export function getBook(bookId) {
     return storageService.get(BOOK_KEY, bookId)
         .then(book => _setNextPrevBookId(book))
 }
@@ -29,7 +29,7 @@ export function remove(bookId) {
     return storageService.remove(BOOK_KEY, bookId);
 }
 
-export function save(book) {
+export function saveBook(book) {
     if (book.id) {
         return storageService.put(BOOK_KEY, book);
     } else {
@@ -39,6 +39,16 @@ export function save(book) {
 
 export function getDefaultFilter() {
     return { title: '', maxPrice: '' }
+}
+
+export function getEmptyBook(title = '', subtitle = '', price = '') {
+    return {
+        title,
+        subtitle,
+        listPrice: {
+            amount: price
+        }
+    }
 }
 
 function _setNextPrevBookId(book) {
@@ -64,6 +74,10 @@ function _createBooks() {
 function _createDemoDataBooks() {
     const ctgs = ['Love', 'Fiction', 'Poetry', 'Computers', 'Religion'];
     const books = [];
+    const reviews = [
+        {id: makeId(), fullname: 'John Smith', rating: 2, readAt: new Date().toLocaleDateString()},
+        {id: makeId(), fullname: 'Mary Smith', rating: 5, readAt: new Date().toLocaleDateString()},
+    ];
 
     for (let i = 0; i < 20; i++) {
         const book = {
@@ -82,7 +96,8 @@ function _createDemoDataBooks() {
                 amount: getRandomIntInclusive(80, 500),
                 currencyCode: "EUR",
                 isOnSale: Math.random() > 0.7
-            }
+            },
+            reviews,
         }
         books.push(book);
     }
