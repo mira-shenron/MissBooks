@@ -1,4 +1,4 @@
-import { getBook } from "../services/book.service.js";
+import { getBook, saveBook } from "../services/book.service.js";
 import {capitalizeFirstLetter} from "../services/util.service.js";
 import {LongTxt} from "../cmps/LongTxt.jsx";
 import { ReviewList } from "../cmps/ReviewList.jsx";
@@ -52,8 +52,15 @@ export function BookDetails() {
         return readingType;
     }
 
-    function onRemoveReview(){
-        console.log('onRemove');
+    function onRemoveReview(reviewId){
+        // remove review from the array and update state so component rerenders
+        const updatedReviews = (book.reviews || []).filter(r => r.id !== reviewId);
+        const updatedBook = { ...book, reviews: updatedReviews };
+
+        // persist the updated book then update the state
+        saveBook(updatedBook)
+        .then(setBook(updatedBook))
+        .catch(err => console.error('Failed saving book after removing review', err));
     }
     
     
