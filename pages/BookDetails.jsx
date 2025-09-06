@@ -2,6 +2,7 @@ import { getBook, saveBook } from "../services/book.service.js";
 import {capitalizeFirstLetter} from "../services/util.service.js";
 import {LongTxt} from "../cmps/LongTxt.jsx";
 import { ReviewList } from "../cmps/ReviewList.jsx";
+import { AddReview } from "../cmps/AddReview.jsx";
 
 const { useState, useEffect } = React
 const { useParams, useNavigate, Link } = ReactRouterDOM
@@ -9,6 +10,7 @@ const { useParams, useNavigate, Link } = ReactRouterDOM
 export function BookDetails() {
     const [book, setBook] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isAddReviewOpen, setIsAddReviewOpen] = useState(false);
     
     const params = useParams();
     const navigate = useNavigate();
@@ -62,6 +64,24 @@ export function BookDetails() {
         .then(setBook(updatedBook))
         .catch(err => console.error('Failed saving book after removing review', err));
     }
+
+    function onOpenAddReviewModal(){
+        setIsAddReviewOpen(true);
+    }
+
+    function onCloseAddReviewModal(){
+        setIsAddReviewOpen(false);
+    }
+
+    function onAddReview(review){
+        const updatedReviews = [review, ...(book.reviews || [])];
+        const updatedBook = { ...book, reviews: updatedReviews };
+        
+        //Since the reviews are in the book, save the book with updated array of reviews
+        saveBook(updatedBook)
+            .then(setBook(updatedBook))
+            .catch(err => console.error('Failed saving book after adding review', err));
+    }
     
     
     const isVintage = getIsVintage();
@@ -94,9 +114,10 @@ export function BookDetails() {
                     <section className="review-container">
                         <section>
                             <h3>Reviews</h3>
-                            <button>+</button>
+                            <button onClick={onOpenAddReviewModal}>+</button>
                         </section>
                         <ReviewList reviews={book.reviews} onRemoveReview={onRemoveReview} />
+                        {isAddReviewOpen && <AddReview onAddReview={onAddReview} onClose={onCloseAddReviewModal}/>}
                     </section>
                 </section>
                 <section className="book-img">
