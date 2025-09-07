@@ -68,7 +68,7 @@ export function BookAdd() {
   return (
     <section className="book-index">
       <h1>Add book from Google API</h1>
-      <SearchCmp onSetFilterBy={onSetFilterBy} filterBy={filterBy}></SearchCmp>
+      <SearchCmp onSetFilter={onSetFilterBy} filterBy={filterBy}></SearchCmp>
       <ul className="book-list">
         {books.map((book) => (
           <li key={book.id}>

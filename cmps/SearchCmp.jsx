@@ -1,15 +1,15 @@
 import { debounce } from "../services/util.service.js";
 
-const { useState, useEffect } = React;
+const { useState, useEffect, useRef, useCallback } = React;
 
-export function SearchCmp({ onSetFilterBy, filterBy }) {
+export function SearchCmp({ onSetFilter, filterBy }) {
   const [searchTxt, setSearchTxt] = useState(filterBy);
   
-  //later add debounce
-  //const onSetFilterDebounce = debounce(onSetFilterBy, 300);
+  const onSetFilterDebounce = useRef(debounce(onSetFilter, 300)).current;
+  //const onSetFilterDebounce = useCallback(debounce(onSetFilter, 1300), [filterBy]);
 
   useEffect(() => {
-    onSetFilterBy(searchTxt);
+    onSetFilterDebounce(searchTxt);
   }, [searchTxt]);
 
   function handleChange({ target }) {
@@ -18,7 +18,7 @@ export function SearchCmp({ onSetFilterBy, filterBy }) {
 
   function onSubmit(ev) {
     ev.preventDefault();
-    onSetFilterBy(searchTxt);
+    onSetFilter(searchTxt);
   }
 
 
