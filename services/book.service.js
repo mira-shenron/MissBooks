@@ -60,6 +60,55 @@ export function getEmptyReview(rating = 1) {
     }
 }
 
+
+export function addGoogleBook(item){
+    // query existing books
+    return storageService.query(BOOK_KEY).then((books) => {
+        //perform duplicate check
+        books = books || [];
+        let title = (item.volumeInfo && item.volumeInfo.title) || '';
+        let authors = (item.volumeInfo && item.volumeInfo.authors) || [];
+
+        let exists = books.some(function (b) {
+            if (!b.title || !title) return false;
+            if (b.title.toLowerCase() !== title.toLowerCase()) return false;
+            // if authors available, compare first author
+            if (authors.length === 0 || !b.authors || b.authors.length === 0) return true;
+            return (b.authors[0] || '').toLowerCase() === (authors[0] || '').toLowerCase();
+        });
+
+        if (exists) {
+            return Promise.reject('Book already exists');
+        }
+
+        // persist converted Google item and return the saved book
+        return storageService.post(BOOK_KEY, _convertFromGoogleFormat(item));
+    });
+}
+
+function _convertFromGoogleFormat(item){
+    const bookFromItem = {
+        id: makeId(),
+        title: (item.volumeInfo && item.volumeInfo.title) || '',
+        subtitle: (item.volumeInfo && item.volumeInfo.subtitle) || '',
+        authors: (item.volumeInfo && item.volumeInfo.authors) ||  ['Unknown'],
+        publishedDate: parseInt(((item.volumeInfo && item.volumeInfo.publishedDate) || '').slice(0,4)) || new Date().getFullYear(),
+        description: (item.volumeInfo && item.volumeInfo.description) || '',
+        pageCount: (item.volumeInfo && item.volumeInfo.pageCount) || 0,
+        categories: (item.volumeInfo && item.volumeInfo.categories) || [],
+        thumbnail: (item.volumeInfo && item.volumeInfo.imageLinks && item.volumeInfo.imageLinks.thumbnail) || '',
+        language: (item.volumeInfo && item.volumeInfo.language) || 'en',
+        listPrice: {
+            amount: getRandomIntInclusive(80, 500),
+            currencyCode: 'USD',
+            isOnSale: false
+        },
+        reviews: []
+    };
+
+    return bookFromItem;
+}
+
 function _setNextPrevBookId(book) {
     return query().then((books) => {
         const bookIdx = books.findIndex((currBook) => currBook.id === book.id);
