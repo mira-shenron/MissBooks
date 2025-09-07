@@ -11,6 +11,7 @@
 
 /* Pages */
 @import "pages/BookEdit.css";
+@import "pages/About.css";
 
 /* Vars */
 :root {
