@@ -1,12 +1,11 @@
 import { debounce } from "../services/util.service.js";
 
-const { useState, useEffect, useRef, useCallback } = React;
+const { useState, useEffect, useRef } = React;
 
 export function SearchCmp({ onSetFilter, filterBy }) {
   const [searchTxt, setSearchTxt] = useState(filterBy);
   
   const onSetFilterDebounce = useRef(debounce(onSetFilter, 300)).current;
-  //const onSetFilterDebounce = useCallback(debounce(onSetFilter, 1300), [filterBy]);
 
   useEffect(() => {
     onSetFilterDebounce(searchTxt);
